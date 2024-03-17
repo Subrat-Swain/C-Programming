@@ -33,3 +33,14 @@ int factorial(int n)
         return f;
 
     }
+void display(int *a)
+    {
+        ++*a;
+    }
+void swap(int *a , int *b)
+    {
+        int c;
+        c = *a;
+        *a = *b;
+        *b = c;
+    }
