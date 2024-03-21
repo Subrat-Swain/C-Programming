@@ -9,12 +9,13 @@ struct ATM
         int acno;
         char name[50];
         int amount;
-    };struct ATM A1;
+    };struct ATM A1[3];
 void design();
 void createacc();
 void deposit();
 void withdraw();
 void balance();
+void displayAccount();
 int main()
     {
         int choice;
@@ -44,7 +45,8 @@ int main()
                                 case 2: deposit();break;
                                 case 3: withdraw();break;
                                 case 4: balance();break;
-                                case 5: break;
+                                case 5: displayAccount();
+                                case 6: break;
                                 default: printf("invalid choice!!! Enter Again!!!");
                             }
                     } while (choice != 5);
@@ -72,55 +74,109 @@ void design()
         printf("\n\t\t2.Deposit Amount");
         printf("\n\t\t3.Withdrawal Amount");
         printf("\n\t\t4.Check Balance");
-        printf("\n\t\t5.Exit");
+        printf("\n\t\t5.Display Account details");
+        printf("\n\t\t6.Exit");
         printf("\n-------------------------------------------------");
     }
 // account creation
 void createacc()
     {
-        printf("\nEnter Account Number:");
-        scanf("%d", &A1.acno);
-        printf("\nEnter Account Holder Name:");
-        fflush(0);
-        scanf("%s", &A1.name);
-        printf("\nEnter Account Opening Amount:");
-        scanf("%d", &A1.amount);
+        int i;
+        for(i = 0; i < 3; i++)
+            {
+                printf("\nEnter Account Number:");
+                scanf("%d", &A1[i].acno);
+                printf("\nEnter Account Holder Name:");
+                fflush(0);
+                scanf("%s", &A1[i].name);
+                printf("\nEnter Account Opening Amount:");
+                scanf("%d", &A1[i].amount);
+            }
+    }
+// display account details
+void displayAccount()
+    {
+        int i;
+        printf("\nAccount No\t\t Name\t\t Balance");
+        for(i = 0; i < 3; i++)
+            {
+                printf("\n%d",A1[i].acno);
+                printf("\t%s", A1[i].name);
+                printf("\t%d", A1[i].amount);
+                printf("\n\n");
+            }
     }
 // Deposit into Account
 void deposit()
     {
-        int amt;
-        printf("\nEnter Amount For Deposit");
-        scanf("%d", &amt);
-        if(amt <= 0)
+        int accno, i, amt, f = 0;
+        printf("\nEnter an Account Number");
+        scanf("%d",&accno);
+        for(i = 0; i < 3; i++)
             {
-                printf("\nInvalid Amount......");
+                if(A1[i].acno == accno)
+                    {
+                        f = 1;
+                        printf("\nName: %s", A1[i].name);
+                        printf("\nEnter an Amount For Deposit");
+                        scanf("%d", &amt);
+                        if(amt <= 0)
+                            {
+                                printf("\nInvalid Amount......");
+                            }
+                        A1[i].amount = A1[i].amount + amt;
+                        break;
+                    }
             }
-        A1.amount = A1.amount + amt;
+        if(f == 0)
+            {
+                printf("\nInvalid Account No ... Please check");
+            }
     }
 // Withdraw From Account
 void withdraw()
     {
-        int amt;
-        printf("\nEnter Amount For Withdraw");
-        scanf("%d", &amt);
-        if(amt <= 0)
+        int accno, i, amt, f = 0;
+        printf("\nEnter an Account Number");
+        scanf("%d",&accno);
+        for(i = 0; i < 3; i++)
             {
-                printf("\nInvalid Amount..........");
+                if(A1[i].acno == accno)
+                    {
+                        f = 1;
+                        printf("\nName: %s", A1[i].name);
+                        printf("\nEnter an Amount For Withdraw");
+                        scanf("%d", &amt);
+                        if(amt <= 0 || amt > A1[i].amount)
+                            {
+                                printf("\nInvalid Amount or Insufficient Balance...");
+                            }
+                        if(amt > A1[i].amount)
+                            {
+                                printf("\nInsufficient Fund....");
+                            }
+                        A1[i].amount = A1[i].amount - amt;
+                        break;
+                    }
             }
-        if(amt > A1.amount)
+        if(f == 0)
             {
-                printf("\nInsufficient Fund......");
-            }
-        else
-            {
-                A1.amount = A1.amount - amt;
+                printf("\nInvalid Account No ... Please check");
             }
     }
 // Check Balance or everything
 void balance()
     {
-        printf("\nAccount No:%d", A1.acno);
-        printf("\nName: %s",A1.name);
-        printf("\nAmount: %d", A1.amount);
+        int accno, i, amt, f = 0;
+        printf("\nEnter an Account Number:");
+        scanf("%d",&accno);
+        for(i = 0; i < 3; i++)
+            {
+                if(A1[i].acno == accno)
+                    {
+                        printf("\nAccount No: %d", A1[i].acno);
+                        printf("\nName: %s", A1[i].name);
+                        printf("\nBalance: %d", A1[i].amount);
+                    }
+            }
     }
